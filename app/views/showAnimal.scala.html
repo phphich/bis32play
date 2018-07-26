@@ -1,0 +1,38 @@
+@(ani1:Animal, ani2:Animal)
+
+<br><br> 
+
+<div class="row">
+    <div class="col-md-2"> </div>
+    <div class="col-md-8">
+        <div class="panel panel-success">
+            <div class="panel-heading">@ani1.getName()</div>
+            <div class="panel-body">
+                Id: @ani1.getId() <br>
+                Name: @ani1.getName() <br>
+                Price: @ani1.getPrice() <br>
+                Amount: @ani1.getAmount() <br>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2"></div>
+</div>
+
+
+<br><br>
+<div class="row">
+    <div class="col-md-2"> </div>
+    <div class="col-md-8">
+        <div class="panel panel-danger" >
+            <div class="panel-heading">@ani1.getName()</div>
+            <div class="panel-body">
+                Id: @ani2.getId() <br>
+                Name: @ani2.getName() <br>
+                Price: @ani2.getPrice() <br>
+                Amount: @ani2.getAmount() <br>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>

@@ -1,0 +1,29 @@
+<br>
+<h2>ฟอร์มรับข้อมูลสัตว์</h2>
+<form action="/postAnimal" method="post">
+    <table class="table table-stripe">
+        <tr>
+            <td>ID</td>
+            <td><input type="text" name="id" size="10" maxlength="8"></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" name="name" size="50" maxlength="45"></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><input type="number" name="price" size="10" maxlength="8"></td>
+        </tr>
+        <tr>
+            <td>Amount</td>
+            <td><input type="number" name="amount" size="3" maxlength="3"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input  type="submit" value="Save" class="btn btn-success">
+                <input type="reset" value="Clear" class="btn btn-danger">
+            </td>
+        </tr>
+
+    </table>
+</form>

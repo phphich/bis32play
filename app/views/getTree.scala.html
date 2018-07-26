@@ -1,0 +1,37 @@
+<br><br>
+<div class="row">
+    <div class="col-md-2"> </div>
+    <div class="col-md-8">
+        <h1 style="text-align: center">Tree Information (Get Data)</h1>
+        <form action="/addTree" method="POST" enctype="multipart/form-data">
+            <table class="table table-stripe">
+                <tr>
+                    <td width="20%">Id</td>
+                    <td><input type="text" name="id" width="10" maxlength="10" placeholder="ป้อนรัหสต้นไม้ที่นี่"></td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td><input type="text" name="name" width="50" maxlength="50" placeholder="ป้อนชื่อต้นไม้ที่นี่"></td>
+                </tr>
+                <tr>
+                    <td>Detail</td>
+                    <td><textarea name="detail" cols="60" rows="5" placeholder="ป้อนรายละเอียดที่นี่" ></textarea></td>
+                </tr>
+                <tr>
+                    <td>Picture</td>
+                    <td><input type="file" name="picture" accept="image/*"></td>
+                </tr>
+
+                <tr align="center">
+                    <td colspan="2">
+                        <input type="submit" value="Add">
+                        <input type="reset" value="Clear">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="col-md-2"> </div>
+</div>
+
+

@@ -1,0 +1,34 @@
+@(content:Html)
+
+<html>
+    <head>
+        <title>My Web</title>
+        <link rel="stylesheet"
+              href="/assets/stylesheets/bootstrap3/css/bootstrap.css">
+        <link rel="stylesheet" href="../../public/stylesheets/bootstrap3/css/bootstrap.css">
+    </head>
+    <body>
+    <div class="container-fluid">
+        <div class="row" style="background-color: black">
+            <div class="col-md-12">
+                @header()
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-xs-3 col-lg-2"  style="background-color: orangered">
+                @menu()
+            </div>
+
+            <div class="col-md-10 col-xs-9 col-lg-10" style="background-color: lightblue">
+                @content
+            </div>
+        </div>
+
+        <div class="row" style="background-color: gainsboro">
+            @footer()
+        </div>
+
+    </div>
+
+    </body>
+</html>

@@ -1,0 +1,23 @@
+@(ani1:Animal)
+
+<br><br> 
+
+<div class="row">
+    <div class="col-md-2"> </div>
+    <div class="col-md-8">
+        <div class="panel panel-danger">
+            <div class="panel-heading"><h2>@ani1.getName()</h2></div>
+            <div class="panel-body">
+                Id: @ani1.getId() <br>
+                Name: @ani1.getName() <br>
+                Price: @ani1.getPrice() <br>
+                Amount: @ani1.getAmount() <br>
+
+                <p align="center"> <a href="/inputAnimal" class="btn btn-info">Input again</a>  </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2"></div>
+</div>
+
