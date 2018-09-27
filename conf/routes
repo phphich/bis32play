@@ -17,5 +17,21 @@ GET     /showTree                    controllers.Application.showTree()
 GET     /inputAnimal                 controllers.Application.inputAnimal()
 POST    /postAnimal                  controllers.Application.postAminal()
 
+GET     /testdb                      controllers.Application.testAddStudent()
+
+GET     /listStudent               controllers.Application.listStudent()
+GET     /inputStudent               controllers.Application.inputStudent()
+POST    /saveStudent                controllers.Application.saveStudent()
+GET     /editStudent/:id            controllers.Application.editStudent(id:String)
+POST    /updateStudent              controllers.Application.updateStudent()
+GET     /deleteStudent/:id          controllers.Application.deleteStudent(id:String)
+
+GET     /listMajor               controllers.Application.listMajor()
+GET     /inputMajor               controllers.Application.inputMajor()
+POST    /saveMajor                controllers.Application.saveMajor()
+GET     /editMajor/:id            controllers.Application.editMajor(id:String)
+POST    /updateMajor              controllers.Application.updateMajor()
+GET     /deleteMajor/:id          controllers.Application.deleteMajor(id:String)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -1,11 +1,12 @@
 package controllers;
 
-import models.Animal;
-import models.Tree;
+import models.*;
+
 import play.*;
 import play.api.templates.Html;
 import play.data.DynamicForm;
 import play.data.Form;
+import play.libs.F;
 import play.mvc.*;
 
 import views.html.*;
@@ -19,6 +20,17 @@ import static play.Play.application;
 public class Application extends Controller {
     public static List<Tree> treeList = new ArrayList<Tree>();
     public static String picPath = "public/images/tree";
+    //Student
+    public static List<Student> studentList = new ArrayList<Student>();
+    public static Form<Student> studentForm = Form.form(Student.class);
+    public static Student student;
+    //Major
+    public static List<Major> majorList = new ArrayList<Major>();
+    public static Form<Major> majorForm = Form.form(Major.class);
+    public static Major major;
+    //Faculty
+    public static List<Faculty> facultyList = new ArrayList<Faculty>();
+
 
     public static Result showMain(Html content) {
         return  ok(main.render(content));
@@ -118,5 +130,130 @@ public class Application extends Controller {
             myanimal.setAmount(amount);
             return showMain(postAnimal.render(myanimal));
         }
+    }
+
+    public static Result testAddStudent() {
+        Student bis = new Student("std002", "Kookkai", "Kaika", "BIT.", "BIS", 6);
+        Student.create(bis);
+        return ok();
+    }
+
+    public static Result listStudent(){
+        studentList=Student.selectAll();
+        return showMain(listStudent.render(studentList));
+    }
+
+    public static Result inputStudent(){
+        studentForm = Form.form(Student.class);
+        return showMain(inputStudent.render(studentForm));
+    }
+
+    public static Result saveStudent() {
+        Form<Student> newStudent = studentForm.bindFromRequest();
+        if (newStudent.hasErrors()) {
+            flash("msgError","ป้อนข้อมูลไม่ถูกต้อง/ไม่สมบูรณ์ กรุณาตรวจสอบและแก้ไขให้ถูกต้อง");
+            return showMain(inputStudent.render(newStudent));
+
+        }else{
+            student=newStudent.get();
+            Student test = Student.finder.byId(student.getId());
+            if(test!=null){
+                flash("msgError","รหัสนักศึกษาที่ระบุ มีอยู่แล้วในระบบฐานข้อมูล กรุณาแก้ไขใหม่");
+                return showMain(inputStudent.render(newStudent));
+            }else {
+                Student.create(student);
+                return listStudent();
+            }
+        }
+    }
+
+    public static Result editStudent(String id) {
+        student=Student.finder.byId(id);
+        if(student!=null){
+            studentForm = Form.form(Student.class).fill(student);
+            return showMain(editStudent.render(studentForm));
+        }else{
+            return listStudent();
+        }
+    }
+
+    public static Result updateStudent(){
+        Form<Student> newStudent = studentForm.bindFromRequest();
+        if (newStudent.hasErrors()) {
+            return showMain(editStudent.render(newStudent));
+        }else{
+            student=newStudent.get();
+            Student.update(student);
+            return listStudent();
+        }
+    }
+
+    public static Result deleteStudent(String id) {
+        student=Student.finder.byId(id);
+        if(student!=null){
+            Student.delete(student);
+        }
+        return listStudent();
+    }
+
+    public static Result listMajor(){
+        majorList=Major.list();
+        return showMain(listMajor.render(majorList));
+    }
+
+    public static Result inputMajor() {
+        facultyList = Faculty.list();
+        majorForm = Form.form(Major.class);
+        return showMain(inputMajor.render(majorForm, facultyList));
+    }
+
+    public static Result saveMajor(){
+        Form<Major> newMajor = majorForm.bindFromRequest();
+        if(newMajor.hasErrors()) {
+            flash("msgError","ป้อนข้อมูลไม่ถูกต้อง/ไม่สมบูรณ์ กรุณาตรวจสอบและแก้ไขให้ถูกต้อง");
+            facultyList = Faculty.list();
+            return showMain(inputMajor.render(newMajor, facultyList));
+        }else {
+            major=newMajor.get();
+            Major check = Major.finder.byId(major.getId());
+            if(check != null){
+                flash("msgError","รหัสหลักสูตรนี้ซ้ำกับที่มีอยู่แล้วในระบบ กรุณาตรวจสอบและแก้ไขให้ถูกต้อง");
+                facultyList = Faculty.list();
+                return showMain(inputMajor.render(newMajor, facultyList));
+            }
+            Major.create(major);
+            return listMajor();
+        }
+    }
+
+    public static Result editMajor(String id){
+        facultyList = Faculty.list();
+        major=Major.finder.byId(id);
+        if(major==null){
+            return listMajor();
+        }else{
+            majorForm=Form.form(Major.class).fill(major);
+            return showMain(editMajor.render(majorForm, facultyList));
+        }
+    }
+
+    public static Result updateMajor(){
+        Form<Major> newMajor = majorForm.bindFromRequest();
+        if(newMajor.hasErrors()) {
+            flash("msgError","ป้อนข้อมูลไม่ถูกต้อง/ไม่สมบูรณ์ กรุณาตรวจสอบและแก้ไขให้ถูกต้อง");
+            facultyList = Faculty.list();
+            return showMain(editMajor.render(newMajor, facultyList));
+        }else {
+            major=newMajor.get();
+            Major.update(major);
+            return listMajor();
+        }
+    }
+    public static Result deleteMajor(String id){
+        major=Major.finder.byId(id);
+        if(major!=null) {
+            Major.delete(major);
+        }
+        return listMajor();
     }
 }

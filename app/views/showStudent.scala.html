@@ -1,0 +1,44 @@
+@(studentList:List[Student])
+<br>
+<h1>Student Information </h1>
+<table class="table table-stripe">
+    <tr style="background-color: chartreuse">
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Faculty</th>
+        <th>Major</th>
+        <th>Level</th>
+        <th style="text-align: center">
+            <a href="/inputStudent" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+            </a>
+        </th>
+    </tr>
+    @for(student <- studentList){
+        <tr style="background-color: #d0e9c6">
+            <td>@student.getId </td>
+            <td>@student.getName </td>
+            <td>@student.getSurname </td>
+            <td>@student.getFaculty </td>
+            <td>@student.getMajor </td>
+            <td>@student.getLevel </td>
+            <td align="center">
+                <a href="/editStudent/@student.getId" class="bth btn-info btn-sm">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+                <a href="/deleteStudent/@student.getId" class="bth btn-danger btn-sm"
+                onclick="return confirm('โปรดยืนยันการลบข้อมูลรายการที่เลือก');">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </td>
+        </tr>
+    }
+<tr>
+    <td colspan="5">
+        <a href="/" class="btn btn-danger">Home</a>
+    </td>
+</tr>
+</table>
+
+

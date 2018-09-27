@@ -1,0 +1,43 @@
+@(majorList:List[Major])
+<br>
+<h1>ข้อมูลหลักสูตรการศึกษา </h1>
+<table class="table table-hover" style="background-color:honeydew;color: blue">
+    <tr style="background-color: #1b6d85;color: white">
+        <th>รหัส</th>
+        <th>ชื่อหลักสูตร</th>
+        <th>ระดับการศึกษา</th>
+        <th>จำนวนปีที่ศึกษา</th>
+        <th>สังกัดคณะ</th>
+        
+        <th><a href="/inputMajor" class="btn btn-success" style="width: 75px">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+        </a></th>
+    </tr>
+    @for(major <- majorList){
+        <tr>
+            <td>@major.getId </td>
+            <td>@major.getName </td>
+            <td>@major.getLevel </td>
+            <td>@major.getYear </td>
+            <td>@major.getFaculty.getName (@major.getFaculty.getShotName) </td>
+            <td>
+                <a href="/editMajor/@major.getId" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+                <a href="/deleteMajor/@major.getId" class="btn btn-danger"
+                    onclick="return confirm('โปรดยืนยันการลบข้อมูลหลักสูตรที่ถูกเลือก')" >
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+
+            </td>
+        </tr>
+    }
+<tr>
+    <td colspan="5">
+
+        <a href="/" class="btn btn-danger">Home</a>
+    </td>
+</tr>
+</table>
+
+

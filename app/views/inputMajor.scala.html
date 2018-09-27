@@ -1,0 +1,22 @@
+@(myForm:Form[Major], facultyList: List[Faculty])
+@import helper._;
+
+<BR><BR>
+<h1> Helper Form รับข้อมูลนักศึกษาใหม่ </h1>
+@if(flash.containsKey("msgError")){
+    <div class="alert alert-danger">
+        <strong>ผิดพลาด!</strong> @flash.get("msgError").
+    </div>
+}
+
+@helper.form(action=routes.Application.saveMajor(), 'class->"from-control"){
+    @inputText(myForm("id"), '_label ->"รหัสหลักสูตร", 'size->"13", 'maxlength->"13", 'required->"requied")
+    @inputText(myForm("name"), '_label ->"ชื่อหลักสูตร", 'size->"40", 'maxlength->"30", 'required->"requied")
+    @inputRadioGroup(myForm("level"),options=Seq("ปริญญาตรี"->"ปริญญาตรี", "ปริญญาโท"->"ปริญญาโท", "ปริญญาเอก"->"ปริญญาเอก"),
+        '_label->"ระดับการศึกษา")
+    @inputText(myForm("year"), '_label ->"จำนวนปีของหลักสูตร", 'size->"5", 'pattern->"[2-4]{1}", 'title->"ระบุตัวเลขได้ตั้งแต่ 2 - 4 เท่านั้น")
+    @select(myForm("faculty.id"), options=facultyList.map(fac=>fac.getId->fac.getName), '_label -> "สังกัดคณะ")
+
+    <input type="submit" value="บันทึก" class="btn btn-success">
+    <input type="reset" value="เคลียร์" class="btn btn-danger">
+}

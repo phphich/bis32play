@@ -1,0 +1,17 @@
+@(myForm:Form[Student])
+@import helper._;
+
+<BR><BR>
+<h1> Helper Form แก้ไขข้อมูลนักศึกษา </h1>
+@helper.form(action=routes.Application.updateStudent(), 'class->"from-control"){
+    @inputText(myForm("id"), '_label ->"รหัสนักศึกษา[Readonly]", 'size->"13", 'maxlength->"13", 'required->"requied", 'readonly->"readonly")
+    @inputText(myForm("name"), '_label ->"ชื่อนักศึกษา", 'size->"40", 'maxlength->"30", 'required->"requied")
+    @inputText(myForm("surname"), '_label ->"นามสกุล", 'size->"40", 'maxlength->"30", 'required->"requied")
+    @inputText(myForm("faculty"), '_label ->"สังกัดคณะ", 'size->"40", 'maxlength->"30", 'required->"requied")
+    @inputText(myForm("major"), '_label ->"สังกัดสาขา", 'size->"40", 'maxlength->"30", 'required->"requied")
+    @inputRadioGroup(myForm("level"), options=options("1" -> "1", "2"->"2", "3"->"3", "4"->"4"), '_label->"ชั้นปี")
+    <input type="submit" value="บันทึก" class="btn btn-success">
+    <input type="reset" value="เคลียร์" class="btn btn-danger">
+}
+
+
