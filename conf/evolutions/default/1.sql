@@ -29,6 +29,15 @@ create table tbStudent (
   constraint pk_tbStudent primary key (id))
 ;
 
+create table tbUser (
+  id                        varchar(255) not null,
+  name                      varchar(255),
+  status                    varchar(255),
+  picture                   varchar(255),
+  password                  varchar(255),
+  constraint pk_tbUser primary key (id))
+;
+
 alter table tbMajor add constraint fk_tbMajor_faculty_1 foreign key (faculty_id) references tbFaculty (id) on delete restrict on update restrict;
 create index ix_tbMajor_faculty_1 on tbMajor (faculty_id);
 
@@ -43,6 +52,8 @@ drop table tbFaculty;
 drop table tbMajor;
 
 drop table tbStudent;
+
+drop table tbUser;
 
 SET FOREIGN_KEY_CHECKS=1;
 

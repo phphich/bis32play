@@ -2,6 +2,7 @@ package controllers;
 
 import models.*;
 
+import org.jboss.netty.util.internal.ReusableIterator;
 import play.*;
 import play.api.templates.Html;
 import play.data.DynamicForm;
@@ -139,16 +140,27 @@ public class Application extends Controller {
     }
 
     public static Result listStudent(){
+        if(session().get("ustatus")!="Admin"){
+            return showMain(home.render());
+        }
+
         studentList=Student.selectAll();
         return showMain(listStudent.render(studentList));
     }
 
     public static Result inputStudent(){
+        if(session().get("ustatus")!="Admin"){
+            return showMain(home.render());
+        }
+
         studentForm = Form.form(Student.class);
         return showMain(inputStudent.render(studentForm));
     }
 
     public static Result saveStudent() {
+        if(session().get("ustatus")!="Admin"){
+            return showMain(home.render());
+        }
         Form<Student> newStudent = studentForm.bindFromRequest();
         if (newStudent.hasErrors()) {
             flash("msgError","ป้อนข้อมูลไม่ถูกต้อง/ไม่สมบูรณ์ กรุณาตรวจสอบและแก้ไขให้ถูกต้อง");
@@ -168,6 +180,10 @@ public class Application extends Controller {
     }
 
     public static Result editStudent(String id) {
+        if(session().get("ustatus")!="Admin"){
+            return showMain(home.render());
+        }
+
         student=Student.finder.byId(id);
         if(student!=null){
             studentForm = Form.form(Student.class).fill(student);
@@ -178,6 +194,10 @@ public class Application extends Controller {
     }
 
     public static Result updateStudent(){
+        if(session().get("ustatus")!="Admin"){
+            return showMain(home.render());
+        }
+
         Form<Student> newStudent = studentForm.bindFromRequest();
         if (newStudent.hasErrors()) {
             return showMain(editStudent.render(newStudent));
@@ -189,6 +209,10 @@ public class Application extends Controller {
     }
 
     public static Result deleteStudent(String id) {
+        if(session().get("ustatus")!="Admin"){
+            return showMain(home.render());
+        }
+
         student=Student.finder.byId(id);
         if(student!=null){
             Student.delete(student);
@@ -197,17 +221,29 @@ public class Application extends Controller {
     }
 
     public static Result listMajor(){
+        if(session().get("ustatus")!="Admin"){
+            return showMain(home.render());
+        }
+
         majorList=Major.list();
         return showMain(listMajor.render(majorList));
     }
 
     public static Result inputMajor() {
+        if(session().get("ustatus")!="Admin"){
+            return showMain(home.render());
+        }
+
         facultyList = Faculty.list();
         majorForm = Form.form(Major.class);
         return showMain(inputMajor.render(majorForm, facultyList));
     }
 
     public static Result saveMajor(){
+        if(session().get("ustatus")!="Admin"){
+            return showMain(home.render());
+        }
+
         Form<Major> newMajor = majorForm.bindFromRequest();
         if(newMajor.hasErrors()) {
             flash("msgError","ป้อนข้อมูลไม่ถูกต้อง/ไม่สมบูรณ์ กรุณาตรวจสอบและแก้ไขให้ถูกต้อง");
@@ -227,6 +263,10 @@ public class Application extends Controller {
     }
 
     public static Result editMajor(String id){
+        if(session().get("ustatus")!="Admin"){
+            return showMain(home.render());
+        }
+
         facultyList = Faculty.list();
         major=Major.finder.byId(id);
         if(major==null){
@@ -238,6 +278,10 @@ public class Application extends Controller {
     }
 
     public static Result updateMajor(){
+        if(session().get("ustatus")!="Admin"){
+            return showMain(home.render());
+        }
+
         Form<Major> newMajor = majorForm.bindFromRequest();
         if(newMajor.hasErrors()) {
             flash("msgError","ป้อนข้อมูลไม่ถูกต้อง/ไม่สมบูรณ์ กรุณาตรวจสอบและแก้ไขให้ถูกต้อง");
@@ -250,10 +294,40 @@ public class Application extends Controller {
         }
     }
     public static Result deleteMajor(String id){
+        if(session().get("ustatus")!="Admin"){
+            return showMain(home.render());
+        }
+
         major=Major.finder.byId(id);
         if(major!=null) {
             Major.delete(major);
         }
         return listMajor();
+    }
+
+
+    public static Result loginForm() {
+        return showMain(loginForm.render());
+    }
+
+    public static Result authen(){
+        DynamicForm myForm = Form.form().bindFromRequest();
+        String uid=myForm.get("uid");
+        String passwd = myForm.get("passwd");
+
+        User userLogin = User.authen(uid, passwd);
+        if(userLogin == null){
+            return loginForm();
+        }else {
+            session("uid", userLogin.getId());
+            session("uname", userLogin.getName());
+            session("ustatus", userLogin.getStatus());
+            return showMain(home.render());
+
+        }
+    }
+    public static Result logout(){
+        session().clear();
+        return showMain(home.render());
     }
 }

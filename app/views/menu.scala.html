@@ -1,16 +1,25 @@
 <br>
-<div class="list-group">
-    <a href="/" class="list-group-item active">Home</a>
-    <a href="/p1" class="list-group-item">Page1</a>
-    <a href="/p2" class="list-group-item">Page2</a>
-    <a href="/p3" class="list-group-item">Page3</a>
 
-    <a href="/showAnimal" class="list-group-item">Show Animal</a>
-    <a href="/showTree" class="list-group-item">Tree</a>
-    <a href="/inputAnimal" class="list-group-item">Input Animal</a>
-    <a href="#" class="list-group-item">Promotions</a>
-    <hr>
-    <a href="/listStudent" class="list-group-item">ข้อมูลนักศึกษา</a>
-    <a href="/listMajor" class="list-group-item">ข้อมูลหลักสูตร</a>
+<div class="list-group">
+    @if(session.get("uid") != null){
+        @if(session.get("ustatus") != "Customer"){
+            <a href="/" class="list-group-item active">Home</a>
+            <a href="/p1" class="list-group-item">Page1</a>
+            <a href="/p2" class="list-group-item">Page2</a>
+            <a href="/p3" class="list-group-item">Page3</a>
+
+            <a href="/showAnimal" class="list-group-item">Show Animal</a>
+            <a href="/showTree" class="list-group-item">Tree</a>
+            <a href="/inputAnimal" class="list-group-item">Input Animal</a>
+            <a href="#" class="list-group-item">Promotions</a>
+            <hr>
+        }
+
+        @if(session.get("ustatus") == "Admin") {
+            <a href="/listStudent" class="list-group-item">ข้อมูลนักศึกษา</a>
+            <a href="/listMajor" class="list-group-item">ข้อมูลหลักสูตร</a>
+        }
+    }
+
 </div>
 <br><br><br><br><br><br><br><br><br>

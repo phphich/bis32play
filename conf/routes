@@ -33,5 +33,9 @@ GET     /editMajor/:id            controllers.Application.editMajor(id:String)
 POST    /updateMajor              controllers.Application.updateMajor()
 GET     /deleteMajor/:id          controllers.Application.deleteMajor(id:String)
 
+GET     /loginForm                 controllers.Application.loginForm()
+POST    /authen                    controllers.Application.authen()
+GET     /logout                     controllers.Application.logout()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
