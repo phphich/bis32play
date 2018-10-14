@@ -34,6 +34,7 @@ POST    /updateMajor              controllers.Application.updateMajor()
 GET     /deleteMajor/:id          controllers.Application.deleteMajor(id:String)
 
 GET     /loginForm                 controllers.Application.loginForm()
+
 POST    /authen                    controllers.Application.authen()
 GET     /logout                     controllers.Application.logout()
 

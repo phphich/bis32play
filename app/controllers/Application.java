@@ -315,19 +315,19 @@ public class Application extends Controller {
     public static Result authen(){
         DynamicForm myForm = Form.form().bindFromRequest();
         String uid=myForm.get("uid");
-        String passwd = myForm.get("passwd");
+        String upass = myForm.get("upass");
 
-        User userLogin = User.authen(uid, passwd);
-        if(userLogin == null){
-            return loginForm();
-        }else {
+        User userLogin = User.authen(uid, upass);
+        if(userLogin != null){
             session("uid", userLogin.getId());
             session("uname", userLogin.getName());
             session("ustatus", userLogin.getStatus());
-            return showMain(home.render());
-
+        }else{
+            flash("errLogin", "Invalid user or password");
         }
+        return showMain(home.render());
     }
+
     public static Result logout(){
         session().clear();
         return showMain(home.render());
@@ -338,10 +338,15 @@ public class Application extends Controller {
     public static Animal animal;
 
     public static Result showAnimalSale() {
-        animalList = Animal.list();
-        List<Basket> basketList = (List<Basket>) Cache.get("basketList");
-        return showMain(showAnimalSale.render(animalList, basketList));
-
+        if(session().get("ustatus")!=null) {
+            if (session().get("ustatus").equals("Customer")) {
+                animalList = Animal.list();
+                List<Basket> basketList = (List<Basket>) Cache.get("basketList");
+                return showMain(showAnimalSale.render(animalList, basketList));
+            }
+        }
+        flash("errPermission", "ท่านไม่มีสิทธิ์ใช้ในส่วนนี้");
+        return redirect("/");
     }
 
     public static Result addOrder(String id){

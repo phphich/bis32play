@@ -3,3 +3,9 @@
     you can buy anything on here ....
     <br><br><br><br><br><br>
 </p>
+    @if(flash.containsKey("errPermission")) {
+        <div class="alert alert-danger">
+            @flash.get("errPermission")
+        </div>
+    }
+

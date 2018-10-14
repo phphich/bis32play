@@ -6,19 +6,34 @@
         </div>
         <ul class="nav navbar-nav">
             <li>
-                <img src="/assets/images/myPic.png" width="155px" height="125px">
+                <img src="/assets/images/myPic.png" width="155px" height="50x">
             </li>
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#">Page 1</a></li>
             <li><a href="#">Page 2</a></li>
         </ul>
+
         <ul class="nav navbar-nav navbar-right">
-            @if(session.get("uid") == null){
+            @if(session.get("uid")==null){
                 <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a href="/loginForm"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li>
+                    <form action="/authen" method="POST">
+                        <input type="text" name="uid" placeholder="Enter your id" size="10">
+                        <input type="password" name="upass" placeholder="Enter password" size="10">
+                        <input type="submit" value="Login" class="btn btn-success">
+                    </form>
+                    @if(flash.containsKey("errLogin")){
+                        <b style="color: red">@flash.get("errLogin") </b>
+                    }
+                </li>
             }else{
-                <li>User logged: @session.get("uid"), @session.get("uname"), Status: @session.get("ustatus") </li>
-                <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                <li style="color: yellow">
+                    Logged by: @session.get("uid") @session.get("uname"),
+                    Status: @session.get("ustatus")
+                    <a href="/logout">
+                        <span class="glyphicon glyphicon-log-out"> </span>
+                    </a>
+                </li>
             }
 
         </ul>

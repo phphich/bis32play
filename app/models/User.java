@@ -18,6 +18,7 @@ public class User extends Model{
     private String name, status;
     private String picture;
     private String password;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Orders> userList = new ArrayList<Orders>();
 
@@ -94,8 +95,7 @@ public class User extends Model{
     }
 
     public static User authen(String uid, String passwd){
-        User user =
-                finder.where().and(
+        User user = finder.where().and(
                         Expr.eq("id", uid),
                         Expr.eq("password", passwd))
                         .findUnique();
