@@ -5,6 +5,7 @@ import models.*;
 import org.jboss.netty.util.internal.ReusableIterator;
 import play.*;
 import play.api.templates.Html;
+import play.cache.Cache;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.F;
@@ -14,6 +15,7 @@ import views.html.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static play.Play.application;
@@ -330,4 +332,94 @@ public class Application extends Controller {
         session().clear();
         return showMain(home.render());
     }
+
+    // Shopping
+    public static  List<Animal> animalList = new ArrayList<Animal>();
+    public static Animal animal;
+
+    public static Result showAnimalSale() {
+        animalList = Animal.list();
+        List<Basket> basketList = (List<Basket>) Cache.get("basketList");
+        return showMain(showAnimalSale.render(animalList, basketList));
+
+    }
+
+    public static Result addOrder(String id){
+        animal = Animal.finder.byId(id);
+        List<Basket> basketList=new ArrayList<Basket>();
+        boolean found=false;
+
+        if(Cache.get("basketList") != null){
+            //basketList.addAll((List<Basket>) Cache.get("basketList"));
+            basketList = (List<Basket>) Cache.get("basketList");
+
+            for(int i=0;i<basketList.size();i++) {
+                if(basketList.get(i).getAnimal().getId().equals(id)) {
+                    int amount =  basketList.get(i).getAmount();
+                    basketList.get(i).setAmount(amount + 1);
+                    found=true;
+                    break;
+                }
+            }
+        }
+
+        if(found==false) {
+            basketList.add(new Basket(animal,1));
+        }
+
+        Cache.set("basketList", basketList);
+        //return showAnimalSale();
+        return redirect("/shopping");
+    }
+
+    public static Result removeItem(String id){
+        List<Basket> basketList=new ArrayList<Basket>();
+
+        if(Cache.get("basketList") != null){
+            basketList = (List<Basket>) Cache.get("basketList");
+            for(int i=0;i<basketList.size();i++) {
+                if(basketList.get(i).getAnimal().getId().equals(id)) {
+                    basketList.remove(i);
+                    break;
+                }
+            }
+        }
+
+        Cache.set("basketList", basketList);
+        return redirect("/shopping");
+    }
+
+    public static Result checkBill() {
+        List<Basket> basketList=new ArrayList<Basket>();
+        if(Cache.get("basketList") != null) {
+            basketList =(List<Basket>) Cache.get("basketList");
+        }
+        return showMain(checkBill.render(basketList));
+    }
+
+    public static Result saveBill() {
+        List<Basket> basketList=new ArrayList<Basket>();
+
+        if(Cache.get("basketList") != null) {
+            Orders orders=new Orders();
+            User user = User.finder.byId(session().get("uid"));
+            orders.setDate(new Date());
+            orders.setUser(user);
+            orders.setStatus("order");
+            orders.create(orders);
+
+            basketList=(List<Basket>) Cache.get("basketList");
+            for(int i=0; i<basketList.size();i++) {
+                OrdersDetail ordersDetail = new OrdersDetail();
+                ordersDetail.setOrders(orders);
+                ordersDetail.setAnimal(basketList.get(i).getAnimal());
+                ordersDetail.setAmount(basketList.get(i).getAmount());
+                OrdersDetail.create(ordersDetail);
+
+            }
+        }
+        Cache.remove("basketList");
+        return redirect("/shopping");
+    }
+
 }

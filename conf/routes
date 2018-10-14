@@ -37,5 +37,14 @@ GET     /loginForm                 controllers.Application.loginForm()
 POST    /authen                    controllers.Application.authen()
 GET     /logout                     controllers.Application.logout()
 
+GET     /shopping                controllers.Application.showAnimalSale()
+GET     /addOrder/:id           controllers.Application.addOrder(id:String)
+GET     /removeItem/:id         controllers.Application.removeItem(id:String)
+GET     /checkBill              controllers.Application.checkBill()
+GET     /saveBill               controllers.Application.saveBill()
+
+
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -3,9 +3,8 @@ package models;
 import com.avaje.ebean.Expr;
 import play.db.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +18,13 @@ public class User extends Model{
     private String name, status;
     private String picture;
     private String password;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Orders> userList = new ArrayList<Orders>();
+
+    public List<Orders> getUserList() {
+        return userList;
+    }
+
 
     public User() {
     }
